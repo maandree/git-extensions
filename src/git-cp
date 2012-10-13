@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+cp "$@"
+if [[ -d "${@:$#}" ]]; then
+    i=1
+    while (( $i < $# )); do
+	git add "${@:$i}"
+    done
+else
+    git add "${@:$#}"
+fi
