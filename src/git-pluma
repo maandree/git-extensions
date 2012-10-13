@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-$EDITOR -- "$@"
+pluma -- "$@"
 
 for file in "$@"; do
     if [[ ! -d "$file" ]]; then
