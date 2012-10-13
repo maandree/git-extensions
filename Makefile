@@ -1,3 +1,5 @@
+PREFIX="/usr"
+
 all:
 	@echo 'Nothing to build...'
 
