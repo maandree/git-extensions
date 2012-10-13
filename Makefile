@@ -4,10 +4,10 @@ all:
 
 install:
 	mkdir -p "$(DESTDIR)$(PREFIX)/bin/"
-	install -m 775 "git-touch" "$(DESTDIR)$(PREFIX)/bin/"
-	install -m 775 "git-cp"    "$(DESTDIR)$(PREFIX)/bin/"
-	install -m 775 "git-chmod" "$(DESTDIR)$(PREFIX)/bin/"
-	install -m 775 "git-edit"  "$(DESTDIR)$(PREFIX)/bin/"
+	install -m 775 "src/git-touch" "$(DESTDIR)$(PREFIX)/bin/"
+	install -m 775 "src/git-cp"    "$(DESTDIR)$(PREFIX)/bin/"
+	install -m 775 "src/git-chmod" "$(DESTDIR)$(PREFIX)/bin/"
+	install -m 775 "src/git-edit"  "$(DESTDIR)$(PREFIX)/bin/"
 
 
 uninstall:
