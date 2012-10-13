@@ -16,7 +16,7 @@ for arg in "$@"; do
 	if [[ "$arg" = "--reference" ]]; then
 	    skip=1
 	fi
-    else
+    elif [[ -e "$arg" ]]; then
 	git add "$arg"
     fi
 done
