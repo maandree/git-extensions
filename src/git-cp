@@ -3,9 +3,13 @@
 cp "$@"
 if [[ -d "${@:$#}" ]]; then
     i=1
+    dir="${@:$#:1}"
     while (( $i < $# )); do
-	git add "${@:$#}/${@:$i}"
+	file="${@:$i:1}"
+	file="${file##*/}"
+	git add "$dir/$file"
+	i=$(( $i + 1 ))
     done
 else
-    git add "${@:$#}"
+    git add "${@:$#:1}"
 fi
