@@ -1,0 +1,23 @@
+# Maintainer: Mattias Andrée <maandree@operamail.com>
+pkgname=git-extensions
+pkgver=1
+pkgrel=1
+pkgdesc="Simple handy extensions for git"
+arch=('any')
+url="https://github.com/maandree/git-extensions"
+license=('GPL3')
+depends=('git' 'bash')
+provides=('git-extensions')
+conflicts=('git-extensions')
+source=(https://github.com/maandree/git-extensions/tarball/1)
+md5sums=(1fb7296cbbb4727cf0c08aeb102c4c65)
+
+build() {
+  cd maandree-git-extensions-*
+  make -B DESTDIR="$pkgdir/"
+}
+
+package() {
+  cd maandree-git-extensions-*
+  make DESTDIR="$pkgdir/" install
+}
