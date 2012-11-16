@@ -1,11 +1,11 @@
 # Maintainer: Mattias Andrée <maandree@operamail.com>
 pkgname=git-extensions
 pkgver=1
-pkgrel=1
+pkgrel=2
 pkgdesc="Simple handy extensions for git"
 arch=('any')
 url="https://github.com/maandree/git-extensions"
-license=('GPL3')
+license=('custom:GNUAllPermissiveLicense')
 depends=('git' 'bash')
 provides=('git-extensions')
 conflicts=('git-extensions')
