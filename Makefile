@@ -13,6 +13,7 @@ install:
 	install -m 775 "src/git-gimp"     "$(DESTDIR)$(PREFIX)/bin/"
 	install -m 775 "src/git-pluma"    "$(DESTDIR)$(PREFIX)/bin/"
 	install -m 775 "src/git-inkscape" "$(DESTDIR)$(PREFIX)/bin/"
+	install -m 775 "src/git-todo"     "$(DESTDIR)$(PREFIX)/bin/"
 
 
 uninstall:
@@ -23,6 +24,7 @@ uninstall:
 	unlink "$(DESTDIR)$(PREFIX)/bin/git-gimp"
 	unlink "$(DESTDIR)$(PREFIX)/bin/git-pluma"
 	unlink "$(DESTDIR)$(PREFIX)/bin/git-inkscape"
+	unlink "$(DESTDIR)$(PREFIX)/bin/git-todo"
 
 
 clean:
