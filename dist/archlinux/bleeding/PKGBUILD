@@ -1,7 +1,7 @@
 # Maintainer: Mattias Andrée <maandree@operamail.com>
 pkgname=git-extensions-git
-pkgver=20121116
-pkgrel=2
+pkgver=20121120
+pkgrel=1
 pkgdesc="Simple handy extensions for git"
 arch=('any')
 url="https://github.com/maandree/git-extensions"
