@@ -1,6 +1,6 @@
 # Maintainer: Mattias Andrée <maandree@operamail.com>
 pkgname=git-extensions
-pkgver=2
+pkgver=3
 pkgrel=1
 pkgdesc="Simple handy extensions for git"
 arch=('any')
@@ -10,7 +10,7 @@ depends=('git' 'bash')
 provides=('git-extensions')
 conflicts=('git-extensions')
 source=(https://github.com/maandree/git-extensions/tarball/$pkgver)
-md5sums=(6d376e2cd5cd986d83691840cf00b8eb)
+md5sums=(dbd894f7d3071c51f4fbf0a54ec68e21)
 
 build() {
   cd maandree-git-extensions-*
