@@ -1,33 +1,23 @@
-PREFIX="/usr"
+PREFIX=/usr
+BIN=/bin
 
 all:
 	@echo 'Nothing to build...'
 
 
 install:
-	mkdir -p "$(DESTDIR)$(PREFIX)/bin/"
-	install -m 775 "src/git-touch"    "$(DESTDIR)$(PREFIX)/bin/"
-	install -m 775 "src/git-cp"       "$(DESTDIR)$(PREFIX)/bin/"
-	install -m 775 "src/git-chmod"    "$(DESTDIR)$(PREFIX)/bin/"
-	install -m 775 "src/git-edit"     "$(DESTDIR)$(PREFIX)/bin/"
-	install -m 775 "src/git-gimp"     "$(DESTDIR)$(PREFIX)/bin/"
-	install -m 775 "src/git-pluma"    "$(DESTDIR)$(PREFIX)/bin/"
-	install -m 775 "src/git-inkscape" "$(DESTDIR)$(PREFIX)/bin/"
-	install -m 775 "src/git-todo"     "$(DESTDIR)$(PREFIX)/bin/"
-	install -m 775 "src/git-dia"      "$(DESTDIR)$(PREFIX)/bin/"
+	rm src/git-*~ src/git-*.bak src/git-*.swp || exit 0
+	mkdir -p "$(DESTDIR)$(PREFIX)$(BIN)/"
+	install -m 755 "src/git-"* "$(DESTDIR)$(PREFIX)$(BIN)/"
 
 
 uninstall:
-	unlink "$(DESTDIR)$(PREFIX)/bin/git-touch"
-	unlink "$(DESTDIR)$(PREFIX)/bin/git-cp"
-	unlink "$(DESTDIR)$(PREFIX)/bin/git-chmod"
-	unlink "$(DESTDIR)$(PREFIX)/bin/git-edit"
-	unlink "$(DESTDIR)$(PREFIX)/bin/git-gimp"
-	unlink "$(DESTDIR)$(PREFIX)/bin/git-pluma"
-	unlink "$(DESTDIR)$(PREFIX)/bin/git-inkscape"
-	unlink "$(DESTDIR)$(PREFIX)/bin/git-todo"
-	unlink "$(DESTDIR)$(PREFIX)/bin/git-dia"
+	rm src/git-*~ src/git-*.bak src/git-*.swp || exit 0
+	find src | sed -e 's/^src\///g' | while read line; do  \
+	    unlink "$(DESTDIR)$(PREFIX)$(BIN)/$$line";         \
+	done
 
 
 clean:
 	@echo 'Nothing to clean...'
+
