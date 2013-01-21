@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+git checkout $(git log | grep '\''^commit [0-9a-f]*$'\'' | head --lines=2 | tail --lines=1 | cut -d " " -f 2)
+

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+git fetch upstream
+git pull . upstream/$(git status -b -s 2>/dev/null | head --lines 1 | cut -d ' ' -f 2 | cut -d . -f 1)
+

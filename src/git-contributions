@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+git log --oneline --pretty="format:%an::%ae" | sort | uniq | while read line; do
+    echo "$(git log --oneline --pretty="format:%an::%ae" | grep "^$line\$" | wc -l)::$line" | sed -e 's/::/\t/g';
+done | sort -nr
+

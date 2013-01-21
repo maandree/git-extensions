@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+git diff $(git log | grep '^commit [0-9a-f]*$' | sed -e s/'commit '"$1"/'commit \x1b[01;31m'"$1"'\x1b[00m'/g | cut -d ' ' -f 2 | head --lines "$1" | tail --lines 1)
+
