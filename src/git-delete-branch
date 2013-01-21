@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+test -z "$1" && echo "require branch name" 1>&2 && exit 1
+
+git branch -D "$1"
+(git remote show | while read line; do
+  git branch -d -r "$line"/"$1";
+   git push "$line" :"$1";
+done)
+

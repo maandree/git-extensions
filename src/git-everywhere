@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+(git remote show | while read line; do
+  git "$1" "$line" "${@:2}";
+done)
+

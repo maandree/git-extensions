@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+git tag -a "$@" &&
+git everywhere push "$1"
+
