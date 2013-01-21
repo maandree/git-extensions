@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+repo="$PWD"
+while [ ! -d "$repo/.git" ]; do
+    if [ "$repo" = '/' ]; then
+	echo "git repository is not initialised"
+	exit 1
+    fi
+    repo=${repo%/*}
+done
+
+echo
+if [ "${TERM%%-*}" = "xterm" ]; then 
+  echo -e "\e[34mRepository    \e[36m:\e[00m  \e[02m${repo%/*}/\e[00m${repo##*/}\e[00m"
+else
+  echo -e "\e[34mRepository    \e[36m:\e[00m  \e[00m${repo%/*}/\e[01m${repo##*/}\e[00m"
+fi
+echo -e   "\e[34mDescription   \e[36m:\e[00m  $(cat "$repo/.git/description")"
+echo
+echo -e   "\e[35mAge           \e[36m:\e[00m  $(git log --reverse --pretty=oneline --format="%cr" | head -n 1 | sed 's/ago//')"
+echo -e   "\e[35mActive days   \e[36m:\e[00m  $(git log --pretty='format: %ai' | cut -d ' ' -f 2 | uniq | awk '{ s++ } END { print s }')"
+echo -e   "\e[35mCommit count  \e[36m:\e[00m  $(git log --oneline $commit | wc -l | tr -d ' ')"
+echo -e   "\e[35mFile count    \e[36m:\e[00m  $(cd "$repo" ; git ls-files | wc -l | tr -d ' ')"
+echo
+echo -en  "\e[32mAuthors       \e[36m:\e[00m  "
+git shortlog -n -s $commit | awk '
+{ args[NR] = $0; sum += $0 }
+END {
+  for (i = 1; i <= NR; i++) {
+    printf "%2.2f%% %s\n                 ", 100 * args[i] / sum, args[i]
+  }
+}
+'
+echo
+
