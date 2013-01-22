@@ -26,9 +26,9 @@ elif [ "$action" = "" ]; then
 	 exit 1
     fi
     cd $repo/.git/git-issues &&
-      git-.issues `stty size` "`git config user.email`" "`git config user.name`" |
+      git-.issues "`git config user.email`" "`git config user.name`" |
         while read line; do
-	  $line
+	  "$line"
         done
 else
     cd $repo/.git/git-issues &&
