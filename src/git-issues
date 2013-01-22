@@ -15,7 +15,7 @@ if [ "$action" = "init" ]; then
      mkdir $repo/.git/git-issues &&
        cd $repo/.git/git-issues &&
        git init &&
-       git checkout --orphan .issues &&
+       git checkout --orphan _issues &&
        echo 'issues by the git extension git-extensions, command git-issues' > README &&
        git add README &&
        gitcom 'first commit' &&
