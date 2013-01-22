@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+repo="$PWD"
+while [ ! -d "$repo/.git" ]; do
+    if [ "$repo" = '' ]; then
+	echo "git repository is not initialised"
+	exit 1
+    fi
+    repo=${repo%/*}
+done
+
+echo "$repo"
+cd "$repo"
+
