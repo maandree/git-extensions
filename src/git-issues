@@ -20,6 +20,16 @@ if [ "$action" = "init" ]; then
        git add README &&
        gitcom 'first commit' &&
        echo done
+elif [ "$action" = "" ]; then
+    if [ ! -d $repo/.git/git-issues/.git ]; then
+         echo 'issues is not initialised' 1>&2
+	 exit 1
+    fi
+    cd $repo/.git/git-issues &&
+      git-.issues `stty size` "`git config user.email`" "`git config user.name`" |
+        while read line; do
+	  $line
+        done
 else
     cd $repo/.git/git-issues &&
       git "$@" &&
