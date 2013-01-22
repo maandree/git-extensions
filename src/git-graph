@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+
+if [ "$user" = "" ]; then
+    user=$(git config --get user.email)
+fi
+
+s=3
+if [ $# = 1 ]; then
+    s="$1"
+fi
+
+ok=0
+case $s in
+  (1|2|3|4|5|6)
+    ok=1
+    ;;
+esac
+
+if [ $ok = 0 ]; then
+    echo invalid argument
+    exit 1
+fi
+
+git log --oneline --pretty="format:%ai %ae %H" |
+  sed -e s_' '_'- '_2 |
+  cut -d ' ' -f 1,2,4,5 |
+  sed -e s_' '_-_ --expression=s_:_-_{1,1} |
+  sed -e s_-_' '_"$s" |
+  cut -d ' ' -f 1,3,4,5 |
+  while read line; do
+      echo "$line $(git diff --numstat $(echo "$line" | cut -d ' ' -f 4) | sed -e 's/\t/ /g' | cut -d ' ' -f 1,2 | awk '{ a += $1 ; b += $2 } END { print a " " b }')";
+  done |
+  sort |
+  awk '
+{
+  if (last != $1)
+  {   if (last)
+      {   print last "  \x1b[01;31m" yd "\x1b[00;31m" od "\x1b[01;34m" yc "\x1b[00;34m" oc "\x1b[01;32m" yi "\x1b[00;32m" oi "\x1b[00m"
+      }
+      last = $1
+      yc = "" ; oc = ""
+      yi = "" ; oi = ""
+      yd = "" ; od = ""
+      cyi = 0 ; cyd = 0
+      coi = 0 ; cod = 0
+      nyi = 1 ; nyd = 1
+      noi = 1 ; nod = 1
+  }
+  if ($2 == "'$user'")
+  {   yc = yc "█"
+      for (i = 0; i < $4; i++)
+      {  cyi++
+         if (cyi == nyi)
+         {   yi = yi "█"
+             nyi *= 2
+         }
+      }
+      for (i = 0; i < $5; i++)
+      {  cyd++
+         if (cyd == nyd)
+         {   yd = yd "█"
+             nyd *= 2
+         }
+  }   }
+  else
+  {   oc = oc "█"
+      for (i = 0; i < $4; i++)
+      {  coi++
+         if (coi == noi)
+         {   oi = oi "█"
+             noi *= 2
+         }
+      }
+      for (i = 0; i < $5; i++)
+      {  cod++
+         if (cod == nod)
+         {   od = od "█"
+             nod *= 2
+         }
+} }   }
+END {
+  print last "  \x1b[01;31m" yd "\x1b[00;31m" od "\x1b[01;34m" yc "\x1b[00;34m" oc "\x1b[01;32m" yi "\x1b[00;32m" oi "\x1b[00m"
+}
+' |
+  sed -e s_-_' '_3 -e s_-_:_g -e s_:_-_1 -e s_:_-_1 |
+  ( if [ "${TERM%%-*}" = "xterm" ]; then
+        sed -e 's_00;3_00;4_g' -e 's_01;3_00;10_g' -e 's_█_ _g'
+    else
+        cat
+    fi
+  )
+
