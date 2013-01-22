@@ -18,6 +18,11 @@ if [ "$action" = "init" ]; then
        git checkout --orphan .issues &&
        echo 'issues by the git extension git-extensions, command git-issues' > README &&
        git add README &&
-       gitcom 'first commit'
+       gitcom 'first commit' &&
+       echo done
+else
+    cd $repo/.git/git-issues &&
+      git "$@" &&
+      echo done
 fi
 
