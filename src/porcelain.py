@@ -20,34 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from git import *
 
 
-# TODO git-am
-# TODO git-bisect
-# TODO git-branch
-# TODO git-bundle
-# TODO git-checkout
-# TODO git-cherry-pick
-# TODO git-commit
-# TODO git-describe
-# TODO git-diff
-# TODO git-fetch
-# TODO git-format-patch
-# TODO git-grep
-# TODO git-log
-# TODO git-merge
-# TODO git-notes
-# TODO git-pull
-# TODO git-push
-# TODO git-rebase
-# TODO git-reset
-# TODO git-revert
-# TODO git-shortlog
-# TODO git-show
-# TODO git-stash
-# TODO git-status
-# TODO git-submodule
-# TODO git-tag
-
-
 def git_add(files,
             dry_run = False, verbose = False, force = False, interactive = False,
             patch = False, edit = False, update = False, no_ignore_removal = False,
@@ -79,6 +51,9 @@ def git_add(files,
         return None
 
 
+# TODO git-am
+
+
 def git_archive(treeish, paths = [], extra = [],
                 format = None, list = False, prefix = None, output = None,
                 worktree_attributes = False, remote = None, exec = None,
@@ -105,6 +80,13 @@ def git_archive(treeish, paths = [], extra = [],
     else:
         git_out(args)
         return None
+
+
+# TODO git-bisect
+# TODO git-branch
+# TODO git-bundle
+# TODO git-checkout
+# TODO git-cherry-pick
 
 
 def git_clean(path, exclude = [],
@@ -171,6 +153,13 @@ def git_clone(repository, directory = None,
         return None
 
 
+# TODO git-commit
+# TODO git-describe
+# TODO git-diff
+# TODO git-fetch
+# TODO git-format-patch
+
+
 def git_gc(aggressive = False, auto = False, quite = False, no_prune = False, prune = None,
            git_extra = [], read_output = False):
     args = []
@@ -186,6 +175,9 @@ def git_gc(aggressive = False, auto = False, quite = False, no_prune = False, pr
     else:
         git_out(args)
         return None
+
+
+# TODO git-grep
 
 
 def git_init(directory = None,
@@ -217,6 +209,10 @@ def git_init(directory = None,
         return None
 
 
+# TODO git-log
+# TODO git-merge
+
+
 def git_mv(files,
            verbose = False, force = False, dry_run = False, skip_error = False,
            git_extra = [], read_output = False):
@@ -234,6 +230,14 @@ def git_mv(files,
     else:
         git_out(args)
         return None
+
+
+# TODO git-notes
+# TODO git-pull
+# TODO git-push
+# TODO git-rebase
+# TODO git-reset
+# TODO git-revert
 
 
 def git_rm(files,
@@ -256,4 +260,12 @@ def git_rm(files,
     else:
         git_out(args)
         return None
+
+
+# TODO git-shortlog
+# TODO git-show
+# TODO git-stash
+# TODO git-status
+# TODO git-submodule
+# TODO git-tag
 
