@@ -51,7 +51,80 @@ def git_add(files,
         return None
 
 
-# TODO git-am
+def git_am(mailboxes = [],
+           signoff = False, keep = False, keep_non_patch = False, no_keep_cr = False,
+           keep_cr = False, scissors = False, no_scissors = False, quiet = False,
+           utf8 = False, no_utf8 = False, threeway = False, interactive = False,
+           committer_date_is_author_date = False, ignore_date = False, resolvemsg = None,
+           ignore_space_change = False, ignore_whitesspace = False, whitespace = None,
+           remote_leading_slashes = None, ensure_surrounding = None, directory = None,
+           exclude = [], include = [], reject = False, git_extra = [], read_output = False):
+    args = []
+    args += git_extra
+    args.append('am')
+    if signoff: args.append('--signoff')
+    if keep: args.append('--keep')
+    if keep_non_patch: args.append('--keep-non-patch')
+    if no_keep_cr: args.append('--no-keep-cr')
+    if keep_cr: args.append('--keep-cr')
+    if scissors: args.append('--scissors')
+    if no_scissors: args.append('--no-scissors')
+    if quiet: args.append('--quiet')
+    if utf8: args.append('--utf8')
+    if no_utf8: args.append('--no-utf8')
+    if threeway: args.append('--3way')
+    if interactive: args.append('--interactive')
+    if committer_date_is_author_date: args.append('--committer-date-is-author-date')
+    if ignore_date: args.append('--ignore-date')
+    if resolvemsg is not None: args.append('--resolvemsg=%s' % resolvemsg)
+    if ignore_space_change: args.append('--ignore-space-change')
+    if ignore_whitesspace: args.append('--ignore-whitesspace')
+    if whitespace is not None: args.append('--whitespace=%s' % whitespace)
+    if remote_leading_slashes is not None: args.append('-p%i' % remote_leading_slashes)
+    if ensure_surrounding is not None: args.append('-C%i' % ensure_surrounding)
+    if directory is not None: args.append('--directory=%s' % directory)
+    for path in exclude:
+        args.append('--exclude=%s' % path)
+    for path in include:
+        args.append('--include=%s' % path)
+    if reject: args.append('--reject')
+    args.append('--')
+    args += [mailboxes] if isinstance(mailboxes, str) else mailboxes
+    if read_output:
+        return git(args)
+    else:
+        git_out(args)
+        return None
+
+
+def git_am_continue(resolvemsg = None, git_extra = [], read_output = False):
+    args = git_extra + ['am', '--continue']
+    if resolvemsg is not None: args.append('--resolvemsg=%s' % resolvemsg)
+    if read_output:
+        return git(args)
+    else:
+        git_out(args)
+        return None
+
+
+def git_am_skip(resolvemsg = None, git_extra = [], read_output = False):
+    args = git_extra + ['am', '--skip']
+    if resolvemsg is not None: args.append('--resolvemsg=%s' % resolvemsg)
+    if read_output:
+        return git(args)
+    else:
+        git_out(args)
+        return None
+
+
+def git_am_abort(resolvemsg = None, git_extra = [], read_output = False):
+    args = git_extra + ['am', '--abort']
+    if resolvemsg is not None: args.append('--resolvemsg=%s' % resolvemsg)
+    if read_output:
+        return git(args)
+    else:
+        git_out(args)
+        return None
 
 
 def git_archive(treeish, paths = [], extra = [],
@@ -86,7 +159,60 @@ def git_archive(treeish, paths = [], extra = [],
 # TODO git-branch
 # TODO git-bundle
 # TODO git-checkout
-# TODO git-cherry-pick
+
+
+def git_cherry_pick(commits
+                    edit = False, extend_message = False, mainline = None, no_commit = False,
+                    signoff = False, fast_forward = False, allow_empty = False,
+                    allow_empty_message = False, keep_redundant_commits = False,
+                    strategy = None, strategy_option = None,
+                    git_extra = [], read_output = False):
+    args = []
+    args += git_extra
+    args.append('cherry-pick')
+    if edit: args.append('--edit')
+    if extend_message: args.append('-x')
+    if mainline is not None:
+        args.append('--mainline')
+        args.append(mainline)
+    if no_commit: args.append('--no-commit')
+    if signoff: args.append('--signoff')
+    if fast_forward: args.append('--ff')
+    if allow_empty: args.append('--allow-empty')
+    if allow_empty_message: args.append('--allow-empty-message')
+    if keep_redundant_commits: args.append('--keep-redundant-commits')
+    if strategy is not None: args.append('--strategy=%s' % strategy)
+    if strategy_option is not None: args.append('--strategy-option=%s' % strategy_option)
+    args += [commits] if isinstance(commits, str) else commits
+    if read_output:
+        return git(args)
+    else:
+        git_out(args)
+        return None
+
+
+def git_cherry_pick_continue(git_extra = [], read_output = False):
+    if read_output:
+        return git(git_extra + ['cherry-pick', '--continue'])
+    else:
+        git_out(git_extra + ['cherry-pick', '--continue'])
+        return None
+
+
+def git_cherry_pick_quit(git_extra = [], read_output = False):
+    if read_output:
+        return git(git_extra + ['cherry-pick', '--quit'])
+    else:
+        git_out(git_extra + ['cherry-pick', '--quit'])
+        return None
+
+
+def git_cherry_pick_abort(git_extra = [], read_output = False):
+    if read_output:
+        return git(git_extra + ['cherry-pick', '--abort'])
+    else:
+        git_out(git_extra + ['cherry-pick', '--abort'])
+        return None
 
 
 def git_clean(path, exclude = [],
@@ -237,7 +363,54 @@ def git_mv(files,
 # TODO git-push
 # TODO git-rebase
 # TODO git-reset
-# TODO git-revert
+
+
+def git_revert(commits,
+               edit = False, no_edit = False, no_commit = False, signoff = False,
+               mainline = None, strategy = None, strategy_option = None,
+               git_extra = [], read_output = False):
+    args = []
+    args += git_extra
+    args.append('revert')
+    if edit: args.append('--edit')
+    if no_edit: args.append('--no-edit')
+    if no_commit: args.append('--no-commit')
+    if signoff: args.append('--signoff')
+    if strategy is not None: args.append('--strategy=%s' % strategy)
+    if strategy_option is not None: args.append('--strategy_option=%s' % strategy_option)
+    if mainline is not None:
+        args.append('--mainline')
+        args.append(mainline)
+    args += [commits] if isinstance(commits, str) else commits
+    if read_output:
+        return git(args)
+    else:
+        git_out(args)
+        return None
+
+
+def git_revert_continue(git_extra = [], read_output = False):
+    if read_output:
+        return git(git_extra + ['revert', '--continue'])
+    else:
+        git_out(git_extra + ['revert', '--continue'])
+        return None
+
+
+def git_revert_quit(git_extra = [], read_output = False):
+    if read_output:
+        return git(git_extra + ['revert', '--quit'])
+    else:
+        git_out(git_extra + ['revert', '--quit'])
+        return None
+
+
+def git_revert_abort(git_extra = [], read_output = False):
+    if read_output:
+        return git(git_extra + ['revert', '--abort'])
+    else:
+        git_out(git_extra + ['revert', '--abort'])
+        return None
 
 
 def git_rm(files,
@@ -262,8 +435,71 @@ def git_rm(files,
         return None
 
 
-# TODO git-shortlog
-# TODO git-show
+def git_shortlog(revision_range = None, paths = [],
+                 numbered = False, summary = False, email = False,
+                 format = None, width = None, indent1 = None, indent2 = None,
+                 git_extra = [], read_output = False):
+    args = []
+    args += git_extra
+    args.append('shortlog')
+    if numbered: args.append('--numbered')
+    if summary: args.append('--summary')
+    if email: args.append('--email')
+    if format is not None:
+        if len(format) == 0:
+            args.append('--format')
+        else:
+            args.append('--format=%s' % format)
+    if (width is not None) or (indent1 is not None) or (indent2 is not None):
+        arg = '-w'
+        if width is not None:
+            arg += '%i' % width
+        else:
+            arg += ','
+        if indent1 is not None:
+            arg += '%i' % indent1
+        elif indent2 is not None:
+            arg += ','
+        if indent2 is not None:
+            arg += '%i' % indent2
+        args.append(arg)
+    if revision_range is not None:
+        args.append(revision_range)
+    args.append('--')
+    args += paths
+    if read_output:
+        return git(args)
+    else:
+        git_out(args)
+        return None
+
+
+def git_show(objects,
+             pretty = None, abbrev_commit = False, no_abbrev_commit = False, oneline = False,
+             encoding = None, notes = None, no_notes = False, show_signatures = False, verify = False,
+             it_extra = [], read_output = False):
+    if isinstance(objects, str):
+        objects = [objects]
+        args = []
+    args += git_extra
+    args.append('show')
+    if pretty is not None: args.append('--pretty' if len(pretty) == 0 else ('--pretty=' % pretty))
+    if abbrev_commit: args.append('--abbrev-commit')
+    if no_abbrev_commit: args.append('--no-abbrev-commit')
+    if oneline: args.append('--oneline')
+    if encoding is not None: args.append('--encoding' if len(encoding) == 0 else ('--encoding=' % encoding))
+    if notes is not None: args.append('--notes' if len(notes) == 0 else ('--notes=' % notes))
+    if no_notes: args.append('--no-notes')
+    if show_signature: args.append('--show-signature')
+    if verify: args.append('--verify')
+    args += objects
+    if read_output:
+        return git(args)
+    else:
+        git_out(args)
+        return None
+
+
 # TODO git-stash
 # TODO git-status
 # TODO git-submodule
