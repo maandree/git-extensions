@@ -36,7 +36,7 @@ def git(*arguments):
         arguments = arguments[0]
     else:
         arguments = list(arguments)
-    proc = Popen(['git'] + arguments,
+    proc = Popen(['git', '--no-pager'] + arguments,
           stdin = sys.stdin.buffer,
           stdout = PIPE,
           stderr = sys.stderr.buffer)
@@ -98,4 +98,145 @@ def env(variable):
     @return  :str?         The variable's value, `None` if it is not set
     '''
     return os.environ[variable] if variable in os.environ else None
+
+
+def version():
+    '''
+    Get the installed version of git
+    
+    @return  :str  The version number
+    '''
+    return git('--version').split(' ')[-1]
+
+
+def core_path():
+    '''
+    Get the path where core git programs are installed
+    
+    @return  :str  The path
+    '''
+    return git('--exec-path')
+
+
+def html_path():
+    '''
+    Get the path where git HTML documentation is installed
+    
+    @return  :str  The path
+    '''
+    return git('--html-path')
+
+
+def man_path():
+    '''
+    Get the path where git man page documentation is installed
+    
+    @return  :str  The path
+    '''
+    return git('--man-path')
+
+
+def info_path():
+    '''
+    Get the path where git info documentation is installed
+    
+    @return  :str  The path
+    '''
+    return git('--info-path')
+
+
+def argument_configure(name, value):
+    '''
+    Constructor arguments for override configurations
+    
+    @param   name:str    The name of the configuration
+    @param   value:str   The value of the configuration
+    @return  :list<str>  The arguments to pass
+    '''
+    return ['-c', '%s=%s' % (name, value)]
+
+
+def argument_core_path(path):
+    '''
+    Constructor arguments for the path with core git programs are installed
+    
+    @param   path:str    The path
+    @return  :list<str>  The arguments to pass
+    '''
+    return ['--exec-path=%s' % path]
+
+
+def argument_paginate():
+    '''
+    Constructor arguments for using $PAGER (fall back to `less`)
+    
+    @return  :list<str>  The arguments to pass
+    '''
+    return ['--paginate']
+
+
+def argument_no_pager():
+    '''
+    Constructor arguments for instructing git not to use a pager
+    
+    @return  :list<str>  The arguments to pass
+    '''
+    return ['--no-pager']
+
+
+def argument_git_dir(path):
+    '''
+    Constructor arguments for instructing git use another root for the git repository
+    
+    @param   path:str    The path
+    @return  :list<str>  The arguments to pass
+    '''
+    return ['--git-dir=%s' % path]
+
+
+def argument_word_tree(path):
+    '''
+    Constructor arguments for instructing git use another path for the work tree
+    
+    @param   path:str    The path
+    @return  :list<str>  The arguments to pass
+    '''
+    return ['--work-tree=%s' % path]
+
+
+def argument_namespace(path):
+    '''
+    Constructor arguments for setting git namespace
+    
+    @param   path:str    The namespace
+    @return  :list<str>  The arguments to pass
+    '''
+    return ['--namespace=%s' % path]
+
+
+def argument_bare():
+    '''
+    Constructor arguments for instructing git to treat the repository as a bare repository
+    
+    @return  :list<str>  The arguments to pass
+    '''
+    return ['--bare']
+
+
+def argument_no_replace_objects():
+    '''
+    Constructor arguments for instructing git not to use replacement refs
+    
+    @return  :list<str>  The arguments to pass
+    '''
+    return ['--no-replace-objects']
+
+
+def argument_literal_pathspecs():
+    '''
+    Constructor arguments for instructing git to treat pathspecs literally, rather than as glob patterns
+    
+    @return  :list<str>  The arguments to pass
+    '''
+    return ['--literal-pathspecs']
 
