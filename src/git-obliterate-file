@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-for file in "$@"; do
-    git filter-branch -f --index-filter "git shred -r --cached --ignore-unmatch -- '$file'" --prune-empty --tag-name-filter cat -- --all
-done
